@@ -18,6 +18,18 @@ from (select s.pay_date, e.department_id, avg(s.amount) over(partition by s.pay_
       as dept_avg from Salary s inner join Employee e on s.employee_id = e.employee_id)
 as cte
 
+Problem 2 : Student Report By Geography
+
+with cte1 as (select name as America, row_number() over(order by name) as rnk from student
+    where continent = 'America')
+, cte2 as (select name as Asia, row_number() over(order by name) as rnk from student
+    where continent = 'Asia')
+, cte3 as (select name as Europe, row_number() over(order by name)as rnk from student
+    where continent = 'Europe')
+
+select America, Asia, Europe from cte1 a left join cte2 b on a.rnk = b.rnk left join
+cte3 c on a.rnk = c.rnk
+
 Problem 1 : Report Contiguos Dates
 
 with cte as (
